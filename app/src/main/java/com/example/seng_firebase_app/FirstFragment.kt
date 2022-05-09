@@ -1,9 +1,11 @@
 package com.example.seng_firebase_app
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.seng_firebase_app.databinding.FragmentFirstBinding
 import com.google.firebase.database.DatabaseReference
@@ -16,7 +18,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
-    private lateinit var databaseRef: DatabaseReference
     val db = FirebaseFirestore.getInstance()
 
 
@@ -41,14 +42,31 @@ class FirstFragment : Fragment() {
 
         binding.btnSave.setOnClickListener {
 
-
             val firstName=binding.txtFirstName.text.toString()
             val lastName=binding.txtLastName.text.toString()
             val age=binding.txtAge.text.toString().toInt()
 
-            val user= mapOf("firstName" to firstName,"lastName" to lastName,"age" to 21)
-            db.collection("userCollection").document("User").set(user)
-            
+                val user= mapOf("firstName" to firstName,"lastName" to lastName,"age" to 21)
+                val res=db.collection("userCollection").document("User").set(user)
+
+
+
+            /*
+             if (TextUtils.isEmpty(firstName) && TextUtils.isEmpty(lastName) && TextUtils.isEmpty(age.toString())) {
+
+                Toast.makeText(this, "Please add some data.", Toast.LENGTH_SHORT).show()
+            } else {
+                val user= mapOf("firstName" to firstName,"lastName" to lastName,"age" to 21)
+                val res=db.collection("userCollection").document("User").set(user)
+                if (res!=null) {
+                    Toast.makeText(FirstFragment.context, "Success", Toast.LENGTH_SHORT).show()
+                }
+            }
+             */
+
+
+
+
 
         }
     }

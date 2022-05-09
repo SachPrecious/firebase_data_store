@@ -1,12 +1,14 @@
 package com.example.seng_firebase_app
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import com.example.seng_firebase_app.databinding.FragmentFirstBinding
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -14,6 +16,9 @@ import com.example.seng_firebase_app.databinding.FragmentFirstBinding
 class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
+    private lateinit var databaseRef: DatabaseReference
+    val db = FirebaseFirestore.getInstance()
+
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -32,8 +37,19 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        //create a map
+
+        binding.btnSave.setOnClickListener {
+
+
+            val firstName=binding.txtFirstName.text.toString()
+            val lastName=binding.txtLastName.text.toString()
+            val age=binding.txtAge.text.toString().toInt()
+
+            val user= mapOf("firstName" to firstName,"lastName" to lastName,"age" to 21)
+            db.collection("userCollection").document("User").set(user)
+            
+
         }
     }
 
